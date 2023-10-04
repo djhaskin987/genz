@@ -221,12 +221,13 @@ func find_best_solution(num_bits int, fitness *FitnessFunction,
 		} else {
 			population.iterations_without_improvement++
 		}
-		if population.iterations_without_improvement > len(population.solutions) {
+		if population.iterations_without_improvement > 3*len(population.solutions) {
 			// We've been stuck for a while. Let's try to get unstuck.
 			// We'll do this by expanding the population size.
 			// This effectively descreases the learning rate,
 			// Allowing the algorithm to "fine tune" what it has learned.
 			population.max_size = population.max_size * 2
+			population.iterations_without_improvement = 0
 		}
 	}
 	return &population.solutions[population.best_fitness_index]
